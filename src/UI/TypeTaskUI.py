@@ -48,7 +48,7 @@ class TypeTask(Base):
 
     def verif_add_data(self, e):
         # Accéder à la valeur actuelle du TextField
-        search_value = self.search_text_field.value  # Récupérer la valeur du TextField
+        search_value = self.search_text_field.value.strip()  # Récupérer la valeur du TextField
         if search_value == "" or search_value is None:
             self.text_error = "Le libellé est vide."
             self.page.dialog = self.bottom_sheet_ui()
