@@ -3,6 +3,7 @@ import os
 from ..Utils import DataUtils
 import locale
 from datetime import datetime
+import flet as ft
 
 
 class Task:
@@ -43,3 +44,21 @@ class Task:
         self.df.at[row_index, 'statut'] = status
         self.df.at[row_index, 'id_type_task'] = id_type_task
         DataUtils.Data().save_data(df_type_task=None, df_task=self.df)
+
+    @staticmethod
+    def get_color_by_date(date: str | None, status):
+        if date is None or date == "":
+            return None
+        date = datetime.strptime(date, "%A, %d %B %Y")
+        current_date = datetime.now()
+
+        if status == "IN PROGRESS":
+            color = None
+            if date.date() == current_date.date():
+                color = ft.colors.YELLOW
+            elif date.date() > current_date.date():
+                color = ft.colors.GREEN
+            else:
+                return ft.colors.RED
+
+            return color
