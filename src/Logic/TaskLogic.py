@@ -4,6 +4,8 @@ from ..Utils import DataUtils
 import locale
 from datetime import datetime
 import flet as ft
+import math
+from typing import Union
 
 
 class Task:
@@ -46,19 +48,31 @@ class Task:
         DataUtils.Data().save_data(df_type_task=None, df_task=self.df)
 
     @staticmethod
-    def get_color_by_date(date: str | None, status):
-        if date is None or date == "":
-            return None
-        date = datetime.strptime(date, "%A, %d %B %Y")
-        current_date = datetime.now()
-
-        if status == "IN PROGRESS":
-            color = None
-            if date.date() == current_date.date():
-                color = ft.colors.YELLOW
-            elif date.date() > current_date.date():
-                color = ft.colors.GREEN
+    def get_color_by_date(date: Union[float, str], status):
+        if isinstance(date, float) and not math.isnan(date):
+            return ft.colors.RED
+        elif isinstance(date, str) and status == "IN PROGRESS":
+            _date = datetime.strptime(date, "%A, %d %B %Y")
+            current_date = datetime.now()
+            if _date.date() == current_date.date():
+                return ft.colors.ORANGE
+            elif _date.date() > current_date.date():
+                return ft.colors.GREEN
             else:
                 return ft.colors.RED
-
-            return color
+        else:
+            return None
+        #     return None
+        # date = datetime.strptime(date, "%A, %d %B %Y")
+        # current_date = datetime.now()
+        #
+        # if status == "IN PROGRESS":
+        #     color = None
+        #     if date.date() == current_date.date():
+        #         color = ft.colors.YELLOW
+        #     elif date.date() > current_date.date():
+        #         color = ft.colors.GREEN
+        #     else:
+        #         return ft.colors.RED
+        #
+        #     return color

@@ -175,7 +175,10 @@ class Home(Base):
                           status, id_type_task):
         return ft.ExpansionTile(
             title=ft.Text(libelle),
-            subtitle=ft.Text(f"Date échéance: {date_echeance}, Date de dernière modification: {date_derniere_modif}", color=TaskLogic.Task().get_color_by_date(date_echeance, status)),
+            subtitle=ft.Text(
+                f"Date échéance: {date_echeance}, Date de dernière modification: {date_derniere_modif}",
+                color=TaskLogic.Task().get_color_by_date(date_echeance, status)
+            ),
             collapsed_text_color=ft.colors.BLACK,
             text_color=ft.colors.BLUE,
             controls=[
